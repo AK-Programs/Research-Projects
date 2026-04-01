@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>⚠️ CRITICAL SYSTEM BREACH ⚠️</title>
+    <!-- canvas-confetti for finale -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000000;
+            font-family: 'Courier New', 'Fira Code', 'Segoe UI', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* CRT scanline effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 6px);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* main container */
+        .prank-container {
+            width: 100%;
+            max-width: 880px;
+            transition: all 0.2s;
+        }
+
+        /* Scary panel - advanced cyber threat interface */
+        .threat-panel {
+            background: #0a0c12e6;
+            backdrop-filter: blur(16px);
+            border: 2px solid #ff3300;
+            border-radius: 1.5rem;
+            box-shadow: 0 0 30px rgba(255, 40, 0, 0.6), inset 0 0 20px rgba(255, 0, 0, 0.3);
+            padding: 1.6rem;
+            animation: borderPulseRed 0.9s infinite alternate;
+        }
+
+        @keyframes borderPulseRed {
+            0% { border-color: #ff3300; box-shadow: 0 0 15px #ff3300; }
+            100% { border-color: #ff8855; box-shadow: 0 0 35px #ff4422; }
+        }
+
+        /* glitch header */
+        .glitch-big {
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #ff3a2f;
+            text-shadow: 3px 3px 0 #880000, -2px -2px 0 #ffaa33;
+            letter-spacing: 3px;
+            animation: glitchPulse 0.2s infinite alternate;
+        }
+
+        @keyframes glitchPulse {
+            0% { transform: skew(0deg); opacity: 1; text-shadow: 3px 3px 0 #880000; }
+            100% { transform: skew(1.2deg); opacity: 0.95; text-shadow: -2px -1px 0 #ff884d; }
+        }
+
+        /* fake webcam indicator */
+        .webcam-warning {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1a0505;
+            border-radius: 40px;
+            padding: 6px 15px;
+            width: fit-content;
+            margin: 15px 0 10px auto;
+            border: 1px solid #ff5555;
+        }
+        .red-dot {
+            width: 14px;
+            height: 14px;
+            background: #ff0000;
+            border-radius: 50%;
+            box-shadow: 0 0 8px red;
+            animation: blinkRed 0.8s infinite;
+        }
+        @keyframes blinkRed {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* status grids */
+        .info-grid {
+            background: #010101aa;
+            border-left: 5px solid #ff3300;
+            padding: 1rem;
+            margin: 1.2rem 0;
+            border-radius: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 20px;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #ff664433;
+            padding: 5px 0;
+            font-size: 0.8rem;
+        }
+        .info-label {
+            color: #ffaa77;
+            font-weight: bold;
+        }
+        .info-value {
+            color: #ffdd99;
+            font-family: monospace;
+        }
+
+        /* progress bar container */
+        .progress-container {
+            margin: 1.2rem 0;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #ff9966;
+        }
+        .progress-bg {
+            background: #2a1a1a;
+            height: 24px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 4px;
+            border: 1px solid #ff5533;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff3300, #ff8844);
+            transition: width 0.15s linear;
+        }
+
+        /* process list (fake) */
+        .process-list {
+            background: #03060cee;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            font-size: 0.7rem;
+            font-family: monospace;
+            max-height: 140px;
+            overflow-y: auto;
+            border: 1px solid #ff884466;
+        }
+        .process-item {
+            color: #c0ffb0;
+            padding: 3px 0;
+            border-bottom: 1px dotted #3a2a2a;
+            display: flex;
+            gap: 12px;
+        }
+        .proc-pid { color: #ff8866; min-width: 50px; }
+        .proc-name { color: #ffbb99; }
+        .proc-status { color: #ff5555; margin-left: auto; }
+
+        /* terminal override section */
+        .override-terminal {
+            background: #000000cc;
+            border: 1px solid #ff6644;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 1.4rem 0;
+        }
+        .terminal-prompt {
+            color: #88ff88;
+            font-family: monospace;
+        }
+        .cmd-line {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .cmd-input {
+            flex: 2;
+            background: #111111;
+            border: 1px solid #ff6644;
+            padding: 10px 14px;
+            color: #ffcc88;
+            font-family: monospace;
+            border-radius: 40px;
+            outline: none;
+        }
+        .cmd-input:focus {
+            border-color: #ffaa66;
+            box-shadow: 0 0 10px #ff4422;
+        }
+        .cmd-btn {
+            background: #2c1a1a;
+            border: 1px solid #ff6644;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: #ffaa88;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .cmd-btn:hover {
+            background: #6a2a2a;
+            color: white;
+        }
+        .attempt-counter {
+            background: #1f0e0e;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: #ffaa88;
+        }
+
+        /* fake log */
+        .syslog {
+            background: #010101cc;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            height: 80px;
+            overflow-y: auto;
+            color: #7cb8b0;
+            margin-top: 15px;
+            font-family: monospace;
+        }
+
+        /* reveal panel */
+        .reveal-panel {
+            text-align: center;
+            background: radial-gradient(circle at 30% 10%, #1a3a1a, #021002);
+            border-radius: 2rem;
+            padding: 2rem;
+            border: 3px solid gold;
+            animation: popIn 0.4s ease;
+        }
+        .hidden {
+            display: none;
+        }
+        .joke-title {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #ffea80;
+            text-shadow: 4px 4px 0 #aa4422;
+        }
+        .reset-button {
+            background: #ffaa33;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 25px;
+            cursor: pointer;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.6rem;
+            margin-top: 20px;
+            color: #ffaa77aa;
+        }
+
+        @media (max-width: 600px) {
+            .info-grid { grid-template-columns: 1fr; }
+            .glitch-big { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="prank-container" id="prankApp">
+    <!-- Main scary panel -->
+    <div id="threatPanel" class="threat-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div class="glitch-big">🔴 SYSTEM COMPROMISED</div>
+            <div class="webcam-warning">
+                <div class="red-dot"></div>
+                <span style="color:#ff8888;">CAMERA ACTIVE</span>
+            </div>
+        </div>
+        <div style="color:#ff8866; margin-top: 4px;">‼️ UNAUTHORIZED PRANK ACTIVITY DETECTED – COUNTERMEASURES ACTIVE ‼️</div>
+
+        <!-- Fake system info -->
+        <div class="info-grid">
+            <div class="info-item"><span class="info-label">📡 IP ADDRESS:</span><span class="info-value" id="dynamicIp">192.168.45.122</span></div>
+            <div class="info-item"><span class="info-label">🖥️ HOSTNAME:</span><span class="info-value">STUDENT-PC-APR01</span></div>
+            <div class="info-item"><span class="info-label">🔑 MAC ADDRESS:</span><span class="info-value">2C:54:91:A7:3F:DE</span></div>
+            <div class="info-item"><span class="info-label">⚠️ VIOLATION:</span><span class="info-value">AprilFool payload (RAT)</span></div>
+            <div class="info-item"><span class="info-label">📸 SNAPSHOT:</span><span class="info-value">face_capture_1423.jpg (uploading...)</span></div>
+            <div class="info-item"><span class="info-label">🧠 THREAT SCORE:</span><span class="info-value" id="threatScore">96% CRITICAL</span></div>
+        </div>
+
+        <!-- Process termination simulation -->
+        <div class="process-list" id="processList">
+            <div class="process-item"><span class="proc-pid">[PID 1204]</span><span class="proc-name">svchost.exe</span><span class="proc-status">⚠️ suspicious</span></div>
+            <div class="process-item"><span class="proc-pid">[PID 2288]</span><span class="proc-name">prank_injector.dll</span><span class="proc-status">🔴 malicious</span></div>
+            <div class="process-item"><span class="proc-pid">[PID 4572]</span><span class="proc-name">keylogger.sys</span><span class="proc-status">🚫 terminating</span></div>
+        </div>
+
+        <!-- File encryption simulation progress -->
+        <div class="progress-container">
+            <div class="progress-label"><span>🔒 ENCRYPTING LOCAL DRIVE (C:\)</span><span id="encryptPercent">0%</span></div>
+            <div class="progress-bg"><div id="encryptFill" class="progress-fill" style="width:0%"></div></div>
+        </div>
+
+        <!-- Fake countdown / shutdown timer -->
+        <div class="progress-container">
+            <div class="progress-label"><span>⏳ AUTOMATIC DATA PURGE IN:</span><span id="countdownDisplay">00:12</span></div>
+            <div class="progress-bg"><div id="timerFill" class="progress-fill" style="width:0%; background:#ff5522;"></div></div>
+        </div>
+
+        <!-- Admin override terminal (advanced) -->
+        <div class="override-terminal">
+            <div class="terminal-prompt">> SECURITY_OVERRIDE v2.3 &nbsp; <span id="attemptBadge" class="attempt-counter">[3 attempts left]</span></div>
+            <div class="cmd-line">
+                <span style="color:#88ff88;">$</span>
+                <input type="text" id="overrideCode" class="cmd-input" placeholder="Enter emergency unlock code..." autocomplete="off">
+                <button id="overrideBtn" class="cmd-btn">⛔ AUTHORIZE</button>
+            </div>
+            <div id="overrideMsg" style="color:#ff8866; font-size:0.75rem; margin-top:5px;"></div>
+            <div style="font-size:0.7rem; color:#ffaa77;">* Hint: The only way to stop encryption is the April Fools spirit</div>
+        </div>
+
+        <!-- Live threat log -->
+        <div class="syslog" id="sysLog">
+            > [WRN] Kernel level intrusion detected (prank.exe)<br>
+            > [CRIT] Webcam capture stored on remote server<br>
+            > [ENC] Starting AES-256 encryption of /Documents
+        </div>
+        <footer>⚠️ SCHOOL CYBER DEFENSE UNIT • IRREVERSIBLE OPERATION IN PROGRESS</footer>
+    </div>
+
+    <!-- APRIL FOOL REVEAL (hidden initially) -->
+    <div id="revealPanel" class="reveal-panel hidden">
+        <div style="font-size: 4rem;">🎉🤡🎉</div>
+        <div class="joke-title">APRIL FOOL, FRIEND! 😜</div>
+        <div style="font-size: 1.3rem; margin: 20px 0; color: #f9e45b;">Your system is 100% SAFE! No files were harmed.</div>
+        <div style="background: #2a2a1aaa; border-radius: 30px; padding: 15px; margin: 15px 0;">
+            💀 This was a harmless prank! No cameras, no encryption, no detention! 💀<br>
+            🎭 Happy April Fool's Day from your mischievous friend! 🎭
+        </div>
+        <button id="resetPrankBtn" class="reset-button">🔄 PLAY PRANK AGAIN</button>
+        <footer style="color: #ddbb77;">Share the panic! (but don't break friendships 😂)</footer>
+    </div>
+</div>
+
+<script>
+    // ========== ADVANCED PRANK ENGINE ==========
+    let countdownSeconds = 12;       // 12 seconds total
+    let attemptsLeft = 3;
+    let encryptProgress = 0;
+    let timerInterval = null;
+    let encryptInterval = null;
+    let logInterval = null;
+    let processInterval = null;
+    let isRevealed = false;
+    
+    // DOM elements
+    const threatPanel = document.getElementById('threatPanel');
+    const revealPanel = document.getElementById('revealPanel');
+    const countdownDisplay = document.getElementById('countdownDisplay');
+    const timerFill = document.getElementById('timerFill');
+    const encryptFill = document.getElementById('encryptFill');
+    const encryptPercentSpan = document.getElementById('encryptPercent');
+    const overrideCodeInput = document.getElementById('overrideCode');
+    const overrideBtn = document.getElementById('overrideBtn');
+    const overrideMsgDiv = document.getElementById('overrideMsg');
+    const attemptBadgeSpan = document.getElementById('attemptBadge');
+    const sysLogDiv = document.getElementById('sysLog');
+    const processListDiv = document.getElementById('processList');
+    const threatScoreSpan = document.getElementById('threatScore');
+    
+    // Helper: update timer UI
+    function updateTimerUI() {
+        let minutes = Math.floor(countdownSeconds / 60);
+        let seconds = countdownSeconds % 60;
+        countdownDisplay.innerText = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        let percent = ((12 - countdownSeconds) / 12) * 100;
+        timerFill.style.width = `${percent}%`;
+        if (countdownSeconds <= 3) {
+            timerFill.style.background = "#ff0000";
+        }
+    }
+    
+    // update encryption progress
+    function updateEncryptionUI() {
+        encryptFill.style.width = `${encryptProgress}%`;
+        encryptPercentSpan.innerText = `${Math.floor(encryptProgress)}%`;
+        if (encryptProgress >= 100) {
+            if (encryptInterval) clearInterval(encryptInterval);
+        }
+    }
+    
+    // Add scary log messages
+    function addSysLog(msg) {
+        const newEntry = document.createElement('div');
+        newEntry.innerHTML = `> ${msg}`;
+        sysLogDiv.appendChild(newEntry);
+        sysLogDiv.scrollTop = sysLogDiv.scrollHeight;
+        while (sysLogDiv.children.length > 8) {
+            sysLogDiv.removeChild(sysLogDiv.children[0]);
+        }
+    }
+    
+    // Simulate process list updates (fake termination of processes)
+    function updateProcessList() {
+        if (isRevealed) return;
+        const maliciousProcs = [
+            { pid: "2288", name: "prank_injector.dll", status: "🔴 quarantined" },
+            { pid: "4572", name: "keylogger.sys", status: "✅ terminated" },
+            { pid: "6721", name: "webcam_capture.exe", status: "🚫 blocked" },
+            { pid: "8903", name: "ransom_tool.exe", status: "⚠️ isolated" },
+            { pid: "1245", name: "school_monitor_bypass", status: "💀 deleted" }
+        ];
+        let html = '';
+        for (let i = 0; i < 4; i++) {
+            let p = maliciousProcs[i % maliciousProcs.length];
+            html += `<div class="process-item"><span class="proc-pid">[PID ${p.pid}]</span><span class="proc-name">${p.name}</span><span class="proc-status">${p.status}</span></div>`;
+        }
+        processListDiv.innerHTML = html;
+        // also add a random threat score change
+        let randomThreat = Math.floor(Math.random() * 30) + 70;
+        threatScoreSpan.innerText = `${randomThreat}% CRITICAL`;
+    }
+    
+    // Game over / reveal the prank
+    function revealAprilFool(early = false, reason = "") {
+        if (isRevealed) return;
+        isRevealed = true;
+        // clear all intervals
+        if (timerInterval) clearInterval(timerInterval);
+        if (encryptInterval) clearInterval(encryptInterval);
+        if (logInterval) clearInterval(logInterval);
+        if (processInterval) clearInterval(processInterval);
+        
+        // hide threat panel, show reveal
+        threatPanel.classList.add('hidden');
+        revealPanel.classList.remove('hidden');
+        
+        // launch confetti storm
+        canvasConfetti({ particleCount: 200, spread: 100, origin: { y: 0.6 }, startVelocity: 25, colors: ['#ff8800', '#ff4444', '#ffdd88'] });
+        canvasConfetti({ particleCount: 100, spread: 70, origin: { y: 0.3, x: 0.2 }, startVelocity: 20 });
+        canvasConfetti({ particleCount: 100, spread: 70, origin: { y: 0.4, x: 0.8 }, startVelocity: 20 });
+        setTimeout(() => canvasConfetti({ particleCount: 300, spread: 50, origin: { y: 0.8 }, startVelocity: 15 }), 200);
+    }
+    
+    // Force reveal when timer ends
+    function forceRevealTimeout() {
+        if (!isRevealed) {
+            revealAprilFool(false, "timeout");
+        }
+    }
+    
+    // Failed attempt
+    function failedOverride() {
+        if (isRevealed) return;
+        attemptsLeft--;
+        attemptBadgeSpan.innerText = `[${attemptsLeft} attempts left]`;
+        overrideMsgDiv.innerText = `❌ ACCESS DENIED! Invalid override code. ${attemptsLeft} attempt(s) remaining.`;
+        overrideCodeInput.value = '';
+        overrideCodeInput.style.borderColor = "#ff4444";
+        setTimeout(() => { if(overrideCodeInput) overrideCodeInput.style.borderColor = "#ff6644"; }, 400);
+        
+        if (attemptsLeft <= 0) {
+            overrideMsgDiv.innerText = "⛔ LOCKOUT ACTIVE. SYSTEM PURGE IRREVERSIBLE...";
+            if (timerInterval) clearInterval(timerInterval);
+            revealAprilFool(false, "exhausted");
+        } else {
+            // add scary log
+            addSysLog(`[AUTH] Failed override attempt from ${getRandomIp()} - ${attemptsLeft} left`);
+        }
+    }
+    
+    // Correct override: reveal early
+    function correctOverride() {
+        if (isRevealed) return;
+        addSysLog("[AUTH] EMERGENCY OVERRIDE ACCEPTED. Halting encryption...");
+        revealAprilFool(true, "correct");
+    }
+    
+    // Check code (case insensitive)
+    function checkOverride() {
+        if (isRevealed) return;
+        let code = overrideCodeInput.value.trim();
+        if (code === "") {
+            overrideMsgDiv.innerText = "⚠️ Enter override code!";
+            return;
+        }
+        const upper = code.toUpperCase();
+        // advanced codes for april fools: APRILFOOL, PRANKME, FOOLDAY, HAPPYAPRIL, LOLPRANK, 1STAPRIL
+        const validCodes = ["APRILFOOL", "PRANKME", "FOOLDAY", "HAPPYAPRIL", "LOLPRANK", "1STAPRIL", "APRIL1"];
+        if (validCodes.includes(upper) || code.toLowerCase() === "pranked" || code.toLowerCase() === "aprilfools") {
+            correctOverride();
+        } else {
+            failedOverride();
+        }
+    }
+    
+    // random ip generator
+    function getRandomIp() {
+        return `192.168.${Math.floor(Math.random() * 50) + 10}.${Math.floor(Math.random() * 200) + 10}`;
+    }
+    
+    // simulate advanced logs rotation
+    function scaryLogGenerator() {
+        if (isRevealed) return;
+        const logMessages = [
+            `[KERNEL] Suspicious registry key created: HKCU\\Software\\AprilFool`,
+            `[WEBCAM] Frame captured - facial recognition match: student record`,
+            `[ENCRYPT] C:\\Users\\Public\\Documents\\homework.pdf -> locked`,
+            `[NET] Outbound connection to 185.130.5.253:4444 (C2 server)`,
+            `[IDS] Ransomware behavior detected - blocking write operations`,
+            `[SCHOOL] Report sent to administration@school.edu`,
+            `[MEM] Malicious thread injection into explorer.exe`,
+            `[DISK] MBR backup encrypted - recovery impossible without key`
+        ];
+        const randomMsg = logMessages[Math.floor(Math.random() * logMessages.length)];
+        addSysLog(randomMsg);
+    }
+    
+    // Encryption simulation increments
+    function startEncryptionSim() {
+        encryptProgress = 0;
+        updateEncryptionUI();
+        encryptInterval = setInterval(() => {
+            if (isRevealed) {
+                if (encryptInterval) clearInterval(encryptInterval);
+                return;
+            }
+            if (encryptProgress < 100) {
+                encryptProgress += Math.random() * 8 + 2;
+                if (encryptProgress > 100) encryptProgress = 100;
+                updateEncryptionUI();
+                if (encryptProgress >= 90) {
+                    addSysLog("[CRITICAL] 90% drive encrypted - system failure imminent");
+                }
+            } else {
+                if (encryptInterval) clearInterval(encryptInterval);
+            }
+        }, 600);
+    }
+    
+    // countdown timer
+    function startTimer() {
+        updateTimerUI();
+        timerInterval = setInterval(() => {
+            if (isRevealed) {
+                if (timerInterval) clearInterval(timerInterval);
+                return;
+            }
+            if (countdownSeconds <= 1) {
+                // time's up - reveal
+                if (timerInterval) clearInterval(timerInterval);
+                forceRevealTimeout();
+            } else {
+                countdownSeconds--;
+                updateTimerUI();
+                if (countdownSeconds === 5) {
+                    addSysLog("[SYSTEM] CRITICAL: Data purge in 5 seconds. Enter override to stop.");
+                }
+                if (countdownSeconds === 0) {
+                    forceRevealTimeout();
+                }
+            }
+        }, 1000);
+    }
+    
+    // initialize all dynamic parts
+    function initPrank() {
+        // random IP at start
+        document.getElementById('dynamicIp').innerText = getRandomIp();
+        // start all intervals
+        startTimer();
+        startEncryptionSim();
+        logInterval = setInterval(() => scaryLogGenerator(), 2800);
+        processInterval = setInterval(() => updateProcessList(), 3200);
+        // also update threat score every 2 sec
+        setInterval(() => {
+            if (!isRevealed && threatScoreSpan) {
+                let newScore = Math.floor(Math.random() * 25) + 75;
+                threatScoreSpan.innerText = `${newScore}% CRITICAL`;
+            }
+        }, 2100);
+        // simulate webcam scary message
+        setTimeout(() => addSysLog("[WEBCAM] Snapshot saved to remote: face_april_01.jpg"), 1500);
+        setTimeout(() => addSysLog("[!] Uploading evidence to school server..."), 3800);
+    }
+    
+    // Reset function for prank loop
+    function resetPrank() {
+        if (timerInterval) clearInterval(timerInterval);
+        if (encryptInterval) clearInterval(encryptInterval);
+        if (logInterval) clearInterval(logInterval);
+        if (processInterval) clearInterval(processInterval);
+        
+        // reset variables
+        countdownSeconds = 12;
+        attemptsLeft = 3;
+        encryptProgress = 0;
+        isRevealed = false;
+        
+        // reset UI visibility
+        threatPanel.classList.remove('hidden');
+        revealPanel.classList.add('hidden');
+        
+        // reset visual components
+        updateTimerUI();
+        updateEncryptionUI();
+        attemptBadgeSpan.innerText = `[3 attempts left]`;
+        overrideCodeInput.value = '';
+        overrideMsgDiv.innerHTML = '';
+        overrideCodeInput.style.borderColor = "#ff6644";
+        
+        // reset logs and process list
+        sysLogDiv.innerHTML = '> [WRN] Kernel level intrusion detected (prank.exe)<br>> [CRIT] Webcam capture stored on remote server<br>> [ENC] Starting AES-256 encryption of /Documents';
+        updateProcessList();
+        
+        // randomize ip again
+        document.getElementById('dynamicIp').innerText = getRandomIp();
+        
+        // restart intervals
+        startTimer();
+        startEncryptionSim();
+        logInterval = setInterval(() => scaryLogGenerator(), 2800);
+        processInterval = setInterval(() => updateProcessList(), 3200);
+        threatScoreSpan.innerText = "96% CRITICAL";
+    }
+    
+    // attach listeners
+    overrideBtn.addEventListener('click', checkOverride);
+    overrideCodeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            checkOverride();
+        }
+    });
+    document.getElementById('resetPrankBtn').addEventListener('click', resetPrank);
+    
+    // start the prank
+    initPrank();
+</script>
+</body>
+                                       </html>
