@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Alert</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .alert-card {
+            width: 85%;
+            background: #2c2c2e;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .icon { color: #ff3b30; font-size: 50px; margin-bottom: 10px; }
+        .title { font-size: 18px; font-weight: 600; margin-bottom: 10px; color: #ff3b30; }
+        .msg { font-size: 14px; color: #ebebf5; margin-bottom: 20px; line-height: 1.4; }
+        .progress-bg { background: #3a3a3c; height: 10px; border-radius: 5px; overflow: hidden; }
+        .progress-fill { background: #ff3b30; height: 100%; width: 0%; transition: width 0.3s; }
+        #status-text { font-size: 12px; margin-top: 10px; color: #8e8e93; }
+    </style>
+</head>
+<body>
+
+<div class="alert-card" id="prank-ui">
+    <div class="icon">⚠</div>
+    <div class="title">System Storage Critical</div>
+    <div class="msg">Internal storage is 100% full. To prevent system crash, the device is now deleting large media files and WhatsApp databases.</div>
+    <div class="progress-bg"><div class="progress-fill" id="bar"></div></div>
+    <p id="status-text">Scanning /DCIM/Camera...</p>
+</div>
+
+<script>
+    let bar = document.getElementById('bar');
+    let status = document.getElementById('status-text');
+    let width = 0;
+    
+    let folders = [
+        "Cleaning /WhatsApp/Media...",
+        "Deleting 1.2GB of Gallery photos...",
+        "Wiping Saved Passwords...",
+        "Optimizing System Cache...",
+        "Removing Instagram Data..."
+    ];
+    let i = 0;
+
+    let timer = setInterval(() => {
+        if (width >= 100) {
+            clearInterval(timer);
+            showAprilFool();
+        } else {
+            width += Math.random() * 8;
+            bar.style.width = width + '%';
+            if (width > (i + 1) * 20) {
+                status.innerText = folders[i];
+                i++;
+            }
+        }
+    }, 400);
+
+    function showAprilFool() {
+        document.getElementById('prank-ui').innerHTML = `
+            <div style="font-size: 60px;">😜</div>
+            <div class="title" style="color: #34c759; margin-top: 10px;">APRIL FOOL!</div>
+            <div class="msg">Relax, your photos are safe. Go back to the group chat and tell everyone you survived the 'wipe'!</div>
+            <button onclick="location.reload()" style="background: #34c759; border: none; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; margin-top: 10px;">Reset Prank</button>
+        `;
+    }
+</script>
+
+</body>
+</html>
