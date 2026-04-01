@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Secure System</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: #00ff00;
+  font-family: monospace;
+  overflow: hidden;
+}
+
+/* Matrix Canvas */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Terminal */
+#terminal {
+  padding: 20px;
+  font-size: 16px;
+}
+
+.line {
+  margin: 5px 0;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* Progress */
+.bar-container {
+  width: 80%;
+  height: 20px;
+  border: 1px solid #00ff00;
+  margin-top: 10px;
+}
+
+.bar {
+  height: 100%;
+  width: 0%;
+  background: #00ff00;
+}
+
+/* Final Screen */
+#prank {
+  display: none;
+  text-align: center;
+  margin-top: 20%;
+  font-size: 50px;
+  color: white;
+}
+
+/* Glitch effect */
+.glitch {
+  animation: glitch 0.3s infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(2px, -2px); }
+  25% { transform: translate(-2px, 2px); }
+  50% { transform: translate(2px, 2px); }
+  75% { transform: translate(-2px, -2px); }
+  100% { transform: translate(0); }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div id="terminal"></div>
+
+<div id="prank">
+  😂 APRIL FOOL 😂<br>
+  <span style="font-size:20px;">System secure... you got pranked 😎</span>
+</div>
+
+<script>
+// MATRIX EFFECT
+let canvas = document.getElementById("matrix");
+let ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+let letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+letters = letters.split("");
+
+let fontSize = 14;
+let columns = canvas.width / fontSize;
+
+let drops = [];
+for (let x = 0; x < columns; x++)
+  drops[x] = 1;
+
+function drawMatrix() {
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#0F0";
+  ctx.font = fontSize + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    let text = letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+    if (drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+      drops[i] = 0;
+
+    drops[i]++;
+  }
+}
+
+setInterval(drawMatrix, 33);
+
+// TERMINAL TEXT
+let terminal = document.getElementById("terminal");
+
+let lines = [
+  "> Connecting to secure server...",
+  "> Access granted...",
+  "> Scanning device...",
+  "> Accessing camera...",
+  "> Uploading data...",
+  "> WARNING: Suspicious activity detected ⚠",
+];
+
+let i = 0;
+
+function addLine() {
+  if (i < lines.length) {
+    let p = document.createElement("div");
+    p.className = "line";
+    p.innerText = lines[i];
+    terminal.appendChild(p);
+
+    beep();
+    i++;
+    setTimeout(addLine, 1200);
+  } else {
+    startProgress();
+  }
+}
+
+// BEEP SOUND
+function beep() {
+  let audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+  audio.play();
+}
+
+// PROGRESS BAR
+function startProgress() {
+  let container = document.createElement("div");
+  container.className = "bar-container";
+
+  let bar = document.createElement("div");
+  bar.className = "bar";
+
+  container.appendChild(bar);
+  terminal.appendChild(container);
+
+  let percent = 0;
+
+  let interval = setInterval(() => {
+    percent += Math.random() * 8;
+    bar.style.width = percent + "%";
+
+    if (percent >= 100) {
+      clearInterval(interval);
+      finalHack();
+    }
+  }, 200);
+}
+
+// FINAL GLITCH + PRANK
+function finalHack() {
+  terminal.innerHTML += "<div class='line' style='color:red;'>⚠ SYSTEM BREACH ⚠</div>";
+
+  document.body.classList.add("glitch");
+
+  setTimeout(() => {
+    document.getElementById("terminal").style.display = "none";
+    document.body.classList.remove("glitch");
+    document.getElementById("prank").style.display = "block";
+  }, 2500);
+}
+
+setTimeout(addLine, 1000);
+</script>
+
+</body>
+</html>
