@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Game Booster Pro</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  text-align: center;
+}
+
+/* app container */
+.app {
+  padding: 20px;
+}
+
+.card {
+  background: #1e293b;
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+button {
+  background: #22c55e;
+  border: none;
+  padding: 15px;
+  width: 100%;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+/* loading */
+.loader {
+  width: 0%;
+  height: 10px;
+  background: lime;
+  margin-top: 10px;
+}
+
+/* hidden */
+.hidden {
+  display: none;
+}
+
+/* glitch */
+.glitch {
+  animation: glitch 0.2s infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(2px,-2px); }
+  50% { transform: translate(-2px,2px); }
+  100% { transform: translate(0); }
+}
+
+/* final */
+#final {
+  display: none;
+  margin-top: 40%;
+  font-size: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app" id="app">
+
+<h2>🎮 Game Booster Pro</h2>
+<p>Unlock hidden features & boost performance</p>
+
+<div class="card">
+  <p>✔ Remove lag</p>
+  <p>✔ Unlock premium settings</p>
+  <p>✔ Boost FPS</p>
+
+  <button onclick="start()">Start Boost</button>
+</div>
+
+</div>
+
+<div class="app hidden" id="process">
+  <h2>🔄 Verifying Device...</h2>
+  <div class="loader" id="bar"></div>
+  <p id="status">Initializing...</p>
+</div>
+
+<div id="final">
+  😂 APRIL FOOL 😂<br>
+  <span style="font-size:18px;">You really thought it’s real? 😎</span>
+</div>
+
+<script>
+function start() {
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("process").classList.remove("hidden");
+
+  let bar = document.getElementById("bar");
+  let status = document.getElementById("status");
+
+  let steps = [
+    "Checking system...",
+    "Scanning apps...",
+    "Connecting to server...",
+    "Verifying human...",
+    "Accessing camera...",
+    "Uploading data...",
+    "⚠ Suspicious activity detected!"
+  ];
+
+  let i = 0;
+  let percent = 0;
+
+  let interval = setInterval(() => {
+    percent += Math.random() * 15;
+    bar.style.width = percent + "%";
+
+    if (i < steps.length) {
+      status.innerText = steps[i];
+      i++;
+    }
+
+    if (percent >= 100) {
+      clearInterval(interval);
+      hack();
+    }
+  }, 600);
+}
+
+function hack() {
+  document.body.classList.add("glitch");
+
+  document.getElementById("status").innerText =
+    "⚠ DEVICE BREACHED! Sending data...";
+
+  setTimeout(() => {
+    document.body.classList.remove("glitch");
+    document.getElementById("process").classList.add("hidden");
+    document.getElementById("final").style.display = "block";
+  }, 3000);
+}
+</script>
+
+</body>
+</html>
