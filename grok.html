@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ [YOUR SCHOOL NAME] - CRITICAL BREACH</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=VT323&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'VT323', monospace;
+            background: #0a0000;
+            color: #0f0;
+            text-align: center;
+            cursor: crosshair;
+        }
+        
+        .scanline {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(transparent 50%, rgba(255, 0, 0, 0.08) 50%);
+            background-size: 100% 6px;
+            animation: scan 3s linear infinite;
+            z-index: 9998;
+            opacity: 0.7;
+        }
+        
+        @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
+        
+        .glitch {
+            position: relative;
+            animation: glitch-skew 0.8s infinite linear alternate-reverse;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+        
+        .glitch::before { left: 3px; text-shadow: -3px 0 #f00; animation: glitch-anim 1.2s infinite; }
+        .glitch::after { left: -3px; text-shadow: 3px 0 #0ff; animation: glitch-anim2 1.8s infinite; }
+        
+        @keyframes glitch-anim { 0%{clip-path:polygon(0 0,100% 0,100% 33%,0 33%)} 20%{clip-path:polygon(0 12%,100% 12%,100% 42%,0 42%)} }
+        @keyframes glitch-anim2 { 0%{clip-path:polygon(0 67%,100% 67%,100% 100%,0 100%)} }
+        @keyframes glitch-skew { 0%{transform:skew(0deg)} 20%{transform:skew(4deg)} }
+        
+        .container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 880px;
+            width: 92%;
+            background: rgba(15, 0, 0, 0.97);
+            border: 4px solid #c00;
+            box-shadow: 0 0 60px #f00;
+            padding: 35px 25px;
+        }
+        
+        .logo {
+            font-family: 'Creepster', cursive;
+            font-size: 3.8rem;
+            color: #f00;
+            text-shadow: 0 0 20px #f00;
+        }
+        
+        h1 {
+            font-size: 3.4rem;
+            color: #f00;
+            text-shadow: 0 0 25px #f00;
+        }
+        
+        .terminal {
+            background: #000;
+            border: 2px solid #0f0;
+            padding: 12px;
+            margin: 20px auto;
+            max-width: 680px;
+            font-size: 1.35rem;
+            text-align: left;
+            color: #0f0;
+        }
+        
+        .warning {
+            background: #400;
+            border: 3px dashed #f00;
+            padding: 22px;
+            margin: 25px 0;
+            color: #ff0;
+            font-size: 1.75rem;
+            animation: pulse-red 0.9s infinite;
+        }
+        
+        @keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:0.7} }
+        
+        button {
+            background: #300;
+            color: #0f0;
+            border: 4px solid #0f0;
+            padding: 22px 70px;
+            font-size: 2rem;
+            cursor: pointer;
+            margin: 30px 15px;
+            box-shadow: 0 0 30px #0f0;
+        }
+        
+        button:hover {
+            background: #f00;
+            color: #000;
+            border-color: #ff0;
+            transform: scale(1.12);
+        }
+        
+        #reveal {
+            display: none;
+            padding: 35px;
+            background: #000;
+            border: 6px solid #f00;
+            margin-top: 30px;
+        }
+        
+        .big-april {
+            font-size: 4.5rem;
+            color: #ff0;
+            text-shadow: 0 0 20px #ff0, 0 0 40px #f00;
+            animation: flicker 0.3s infinite alternate;
+        }
+        
+        @keyframes flicker { 0%{opacity:0.8} 100%{opacity:1} }
+        
+        .skull { font-size: 5.5rem; animation: shake 0.4s infinite; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-12px)} 75%{transform:translateX(12px)} }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+    
+    <div class="container">
+        <div class="logo glitch" data-text="HACKED BY NAITIK">HACKED BY NAITIK</div>
+        
+        <div class="terminal" id="terminal">> SCHOOL SERVER BREACHED... EXAMS DELETED</div>
+        
+        <h1 class="glitch" data-text="ALL EXAMS TERMINATED">ALL EXAMS TERMINATED</h1>
+        
+        <p style="font-size:1.6rem;">The entire GSEB system has been compromised.<br>
+        All upcoming exams and results have been <strong>permanently erased</strong>.</p>
+        
+        <div class="warning">
+            <span class="skull">☠️</span><br>
+            PRINCIPAL LOCKED OUT<br>
+            TEACHERS ARE HOSTAGES<br>
+            NO ESCAPE
+        </div>
+        
+        <button onclick="revealPrank()">CLICK TO CONFIRM BREACH →</button>
+        <button onclick="revealPrank()" style="background:#600; border-color:#f66;">EMERGENCY REVEAL (if too scared)</button>
+        
+        <div id="reveal">
+            <div class="big-april glitch" data-text="APRIL FOOLS!">APRIL FOOLS!</div>
+            <h2 style="color:#f00; font-size:2.8rem;">You just got hacked by Naitik 😈</h2>
+            <p style="font-size:1.9rem; color:#0f0;">Exams are still coming.<br>Homework is still boring.<br>Teachers are still scary.<br><br>
+            But your scared face was <strong>PRICELESS</strong> 😂😂</p>
+            <div style="margin:40px 0; font-size:2.8rem; color:#ff0;">SEND THIS TO THE WHOLE CLASS FOR MAX CHAOS!</div>
+            <p style="color:#666; font-size:1.4rem;">Made with evil laughs by Naitik • Happy April Fools 2026</p>
+        </div>
+    </div>
+
+    <canvas id="bloodrain" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10000; display:none;"></canvas>
+
+    <script>
+        // Terminal typing
+        const terminal = document.getElementById('terminal');
+        const msgs = ["> BREACH INITIATED...", "> DELETING EXAM DATA...", "> NAITIK OWNS THE SERVER"];
+        let idx = 0;
+        setInterval(() => {
+            if (idx < msgs.length) {
+                terminal.textContent = msgs[idx];
+                idx++;
+            }
+        }, 1100);
+
+        function revealPrank() {
+            const revealDiv = document.getElementById('reveal');
+            revealDiv.style.display = 'block';
+            
+            // Blood rain
+            const canvas = document.getElementById('bloodrain');
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const ctx = canvas.getContext('2d');
+            
+            let drops = [];
+            class Drop {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * -canvas.height;
+                    this.len = Math.random() * 25 + 15;
+                    this.speed = Math.random() * 20 + 15;
+                }
+                update() { this.y += this.speed; if (this.y > canvas.height) this.y = -30; }
+                draw() {
+                    ctx.strokeStyle = '#c00';
+                    ctx.lineWidth = 4;
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = '#f00';
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(this.x + 3, this.y + this.len);
+                    ctx.stroke();
+                }
+            }
+            
+            for (let i = 0; i < 320; i++) drops.push(new Drop());
+            
+            function animateRain() {
+                ctx.fillStyle = "rgba(10,0,0,0.18)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                drops.forEach(d => { d.update(); d.draw(); });
+                requestAnimationFrame(animateRain);
+            }
+            animateRain();
+            
+            // Screen shake
+            let count = 0;
+            const shake = setInterval(() => {
+                document.body.style.transform = `translate(${Math.random()*8-4}px, ${Math.random()*8-4}px)`;
+                count++;
+                if (count > 18) {
+                    clearInterval(shake);
+                    document.body.style.transform = 'none';
+                }
+            }, 65);
+            
+            // Speech
+            try {
+                const speech = new SpeechSynthesisUtterance("Muahahaha! April Fools! You got pranked by Naitik!");
+                speech.rate = 0.9; speech.pitch = 0.75;
+                speechSynthesis.speak(speech);
+            } catch(e) {}
+        }
+        
+        // Random flickers
+        setInterval(() => {
+            if (Math.random() > 0.6) {
+                document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+                setTimeout(() => document.body.style.filter = '', 120);
+            }
+        }, 1700);
+    </script>
+</body>
+</html>
