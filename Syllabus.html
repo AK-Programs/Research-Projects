@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>⚠️ CRITICAL ALERT ⚠️</title>
+    <!-- canvas-confetti library for celebration effect -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* makes it feel more like a system alert, but text can still be copied */
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #0a0f1e 0%, #03060c 100%);
+            font-family: 'Courier New', 'Fira Code', 'Segoe UI', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* main prank container */
+        .alert-panel {
+            max-width: 680px;
+            width: 100%;
+            background: #0b0e17cc;
+            backdrop-filter: blur(12px);
+            border: 2px solid #ff3a2f;
+            border-radius: 2rem;
+            box-shadow: 0 0 40px rgba(255, 40, 30, 0.4), inset 0 0 10px rgba(255, 0, 0, 0.2);
+            padding: 1.8rem 2rem;
+            transition: all 0.2s ease;
+            animation: borderPulse 1.2s infinite alternate;
+        }
+
+        @keyframes borderPulse {
+            0% { border-color: #ff3a2f; box-shadow: 0 0 15px rgba(255, 50, 30, 0.5);}
+            100% { border-color: #ff7b2c; box-shadow: 0 0 35px rgba(255, 80, 40, 0.9);}
+        }
+
+        /* glitch title */
+        .glitch {
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #ff4d4d;
+            text-shadow: 2px 2px 0 #a00, -2px -2px 0 #ffaa33;
+            letter-spacing: 2px;
+            word-break: break-word;
+            animation: glitchSkew 0.3s infinite alternate;
+        }
+
+        @keyframes glitchSkew {
+            0% { transform: skew(0deg); opacity: 1;}
+            100% { transform: skew(1.5deg); opacity: 0.95;}
+        }
+
+        .warning-icon {
+            font-size: 3.8rem;
+            text-align: center;
+            filter: drop-shadow(0 0 6px red);
+            animation: shake 0.2s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px);}
+            25% { transform: translate(-1px, 0px);}
+            50% { transform: translate(1px, -1px);}
+            75% { transform: translate(-1px, 1px);}
+            100% { transform: translate(0,0);}
+        }
+
+        .info-card {
+            background: #010101aa;
+            border-left: 6px solid #ff3a2f;
+            padding: 1rem 1.2rem;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            border-radius: 1rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .info-line {
+            color: #ddd;
+            font-family: monospace;
+            margin: 8px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .label {
+            color: #ff8c6b;
+            font-weight: bold;
+            min-width: 100px;
+        }
+
+        .value {
+            color: #ffd966;
+            word-break: break-all;
+        }
+
+        .progress-section {
+            margin: 1.5rem 0;
+        }
+
+        .progress-bar-bg {
+            background-color: #2a1a1a;
+            border-radius: 40px;
+            height: 28px;
+            overflow: hidden;
+            border: 1px solid #ff5e3a;
+            box-shadow: inset 0 0 6px #000;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff3a2f, #ff7e2e);
+            border-radius: 40px;
+            transition: width 0.2s linear;
+            box-shadow: 0 0 8px #ff3a2f;
+        }
+
+        .timer-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 12px 0 5px;
+            background: #00000066;
+            display: inline-block;
+            width: 100%;
+            padding: 6px;
+            border-radius: 60px;
+            letter-spacing: 4px;
+            color: #ffb347;
+        }
+
+        .override-area {
+            background: #05070ecc;
+            border-radius: 1.2rem;
+            padding: 1.3rem;
+            margin: 1.8rem 0;
+            border: 1px dashed #ff5e5e;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        input {
+            flex: 2;
+            background: #0f0f1c;
+            border: 2px solid #b33;
+            padding: 12px 15px;
+            border-radius: 60px;
+            font-family: monospace;
+            font-size: 1rem;
+            color: #ffc285;
+            outline: none;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        input:focus {
+            border-color: #ff7b2c;
+            box-shadow: 0 0 10px #ff3a2f;
+        }
+
+        button {
+            background: #2c1a1a;
+            border: none;
+            padding: 0 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 1rem;
+            color: #ffaa88;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #ff6a44;
+            box-shadow: 0 2px 6px black;
+        }
+
+        button:hover {
+            background: #5f2a2a;
+            color: white;
+            transform: scale(0.98);
+            border-color: #ffaa66;
+        }
+
+        .attempt-badge {
+            background: #1a0c0c;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #ff9460;
+        }
+
+        .fake-log {
+            font-family: monospace;
+            font-size: 0.7rem;
+            background: #000000aa;
+            padding: 10px;
+            border-radius: 16px;
+            margin-top: 20px;
+            color: #7ea8b8;
+            border-top: 1px solid #ff4d4d33;
+            height: 70px;
+            overflow-y: auto;
+        }
+
+        /* REVEAL PANEL (hidden initially) */
+        .reveal-panel {
+            text-align: center;
+            background: #071a0fb3;
+            backdrop-filter: blur(18px);
+            border-radius: 2.5rem;
+            padding: 2rem;
+            border: 3px solid #ffd966;
+            box-shadow: 0 0 60px #ffb34780;
+            animation: popIn 0.5s cubic-bezier(0.34, 1.2, 0.8, 1);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .joke-text {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #ffda88;
+            text-shadow: 3px 3px 0 #a23;
+            margin: 20px 0;
+        }
+
+        .reset-btn {
+            background: #ff9f4a;
+            color: #1f1b0c;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+            border: none;
+            border-radius: 60px;
+            transition: 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: #ffc107;
+            transform: scale(1.02);
+            color: black;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            margin-top: 25px;
+            color: #ffa07a77;
+        }
+
+        /* responsiveness */
+        @media (max-width: 550px) {
+            .alert-panel {
+                padding: 1.2rem;
+            }
+            .glitch {
+                font-size: 1.4rem;
+            }
+            .joke-text {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="prankContainer">
+    <!-- Main scary panel -->
+    <div id="scaryPanel" class="alert-panel">
+        <div class="warning-icon">
+            ⚠️💀⚠️
+        </div>
+        <div class="glitch">
+            🔥 SYSTEM LOCKDOWN 🔥
+        </div>
+        <div style="text-align: center; margin: 8px 0; color:#ff8866; font-size: 0.85rem;">
+            SCHOOL NETWORK THREAT DETECTED
+        </div>
+
+        <div class="info-card">
+            <div class="info-line">
+                <span class="label">🚨 VIOLATION:</span>
+                <span class="value">Unauthorized prank activity / AprilFool intrusion</span>
+            </div>
+            <div class="info-line">
+                <span class="label">📍 DEVICE IP:</span>
+                <span class="value" id="fakeIp">192.168.12.105</span>
+            </div>
+            <div class="info-line">
+                <span class="label">🖥️ HOSTNAME:</span>
+                <span class="value">STUDENT-LAPTOP-APR01</span>
+            </div>
+            <div class="info-line">
+                <span class="label">⚠️ OFFENSE:</span>
+                <span class="value">"April fool website generator" - code red</span>
+            </div>
+            <div class="info-line">
+                <span class="label">📡 STATUS:</span>
+                <span class="value" id="statusMsg">Encrypting local files... (simulation)</span>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-bar-bg">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <div class="timer-text">
+                ⏱️ <span id="countdownNumber">12</span> SECONDS
+            </div>
+            <div style="font-size:0.7rem; text-align:center; margin-top: 5px; color:#ff6655;">⚠️ AUTOMATIC REPORT TO PRINCIPAL IN ⚠️</div>
+        </div>
+
+        <div class="override-area">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <span style="font-weight: bold; color:#ff9966;">🔐 ADMIN OVERRIDE</span>
+                <span class="attempt-badge" id="attemptBadge">Attempts left: 3</span>
+            </div>
+            <div class="input-group">
+                <input type="text" id="overrideCode" placeholder="Enter override code" autocomplete="off">
+                <button id="overrideBtn">🔓 UNLOCK</button>
+            </div>
+            <div style="font-size: 0.7rem; color:#ffad77;">* Emergency code hint: think "AprilFool" vibe</div>
+            <div id="errorMsg" style="color:#ff7766; font-size:0.8rem; margin-top: 10px;"></div>
+        </div>
+
+        <div class="fake-log">
+            > [SEC] Intrusion detected from MAC: 2A:3F:4E:91:BB:0C<br>
+            > [ENC] Scanning C:\Users\Student\Documents\ ...<br>
+            > [WRN] Disciplinary action pending...
+        </div>
+        <footer>⚠️ School Cybersecurity Unit • Immediate action required</footer>
+    </div>
+
+    <!-- Hidden panel: april fools reveal -->
+    <div id="revealPanel" class="alert-panel reveal-panel hidden">
+        <div style="font-size: 4rem;">🤡🎉</div>
+        <div class="joke-text">
+            😜 APRIL FOOL! 😜
+        </div>
+        <div style="font-size: 1.3rem; color:#f9f3c1; margin: 12px 0;">
+            Your data is 100% safe! No viruses, no encryption, no detention!
+        </div>
+        <div style="background: #2f2a1e55; border-radius: 30px; padding: 12px; margin: 15px 0;">
+            💥 You just got PRANKED by your awesome friend! 💥<br>
+            🎭 Happy April Fool's Day! 🎭
+        </div>
+        <button id="resetPrankBtn" class="reset-btn">🔄 PRANK AGAIN (reset)</button>
+        <footer style="margin-top: 20px;">Share this file with friends & watch the panic! 😈</footer>
+    </div>
+</div>
+
+<script>
+    // ======================= PRANK ENGINE =======================
+    // State variables
+    let countdown = 12;            // seconds
+    let attemptsLeft = 3;
+    let progressInterval = null;
+    let isRevealed = false;
+    
+    // DOM elements
+    const scaryPanel = document.getElementById('scaryPanel');
+    const revealPanel = document.getElementById('revealPanel');
+    const progressFill = document.getElementById('progressFill');
+    const countdownSpan = document.getElementById('countdownNumber');
+    const attemptBadge = document.getElementById('attemptBadge');
+    const overrideInput = document.getElementById('overrideCode');
+    const overrideBtn = document.getElementById('overrideBtn');
+    const errorMsgDiv = document.getElementById('errorMsg');
+    const statusMsgSpan = document.getElementById('statusMsg');
+    
+    // Helper: update progress bar width & timer text
+    function updateProgressAndTimer() {
+        if (isRevealed) return;
+        const percent = ((12 - countdown) / 12) * 100;
+        progressFill.style.width = `${percent}%`;
+        countdownSpan.innerText = countdown;
+        // change status text dynamically for extra drama
+        if (countdown <= 3) {
+            statusMsgSpan.innerHTML = "⚠️ FINAL WARNING: Data quarantine in progress...";
+        } else if (countdown <= 7) {
+            statusMsgSpan.innerHTML = "🔒 Encrypting personal folders & browser history...";
+        } else {
+            statusMsgSpan.innerHTML = "📡 Sending violation report to school board...";
+        }
+    }
+    
+    // Trigger April Fool reveal (celebration mode)
+    function revealAprilFool(early = false, reason = "") {
+        if (isRevealed) return;
+        // stop countdown timer
+        if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+        }
+        isRevealed = true;
+        
+        // Hide scary panel and show reveal panel
+        scaryPanel.classList.add('hidden');
+        revealPanel.classList.remove('hidden');
+        
+        // launch confetti explosion
+        canvasConfetti({
+            particleCount: 180,
+            spread: 100,
+            origin: { y: 0.6 },
+            startVelocity: 20,
+            colors: ['#ff4d4d', '#ffbb33', '#33ff57', '#ff33f1']
+        });
+        canvasConfetti({
+            particleCount: 80,
+            spread: 130,
+            origin: { y: 0.3, x: 0.2 },
+            startVelocity: 25
+        });
+        canvasConfetti({
+            particleCount: 80,
+            spread: 130,
+            origin: { y: 0.4, x: 0.8 },
+            startVelocity: 25
+        });
+        
+        // extra little fun: play a fake "beep" style? not needed, but we add second wave
+        setTimeout(() => {
+            canvasConfetti({
+                particleCount: 300,
+                spread: 70,
+                origin: { y: 0.7 },
+                startVelocity: 18,
+                decay: 0.9
+            });
+        }, 180);
+    }
+    
+    // terminate countdown & force reveal (when time runs out OR attempts exhausted)
+    function forceRevealDueToTimeout() {
+        if (isRevealed) return;
+        revealAprilFool(false, "timeout");
+    }
+    
+    // handle failed override attempt
+    function handleFailedAttempt() {
+        if (isRevealed) return;
+        attemptsLeft--;
+        attemptBadge.innerText = `Attempts left: ${attemptsLeft}`;
+        errorMsgDiv.innerText = `❌ ACCESS DENIED! Invalid override code. ${attemptsLeft} attempt(s) remaining.`;
+        overrideInput.value = '';
+        overrideInput.style.borderColor = "#ff4444";
+        setTimeout(() => { if(overrideInput) overrideInput.style.borderColor = "#b33"; }, 600);
+        
+        // if attempts reach zero, reveal the prank immediately
+        if (attemptsLeft <= 0) {
+            errorMsgDiv.innerText = "⛔ OVERRIDE LOCKOUT. SYSTEM BREACH FINALIZED...";
+            if (progressInterval) clearInterval(progressInterval);
+            revealAprilFool(false, "attempts_exhausted");
+        }
+    }
+    
+    // successful override (correct code) -> immediate reveal (with special note)
+    function successfulOverride() {
+        if (isRevealed) return;
+        if (progressInterval) clearInterval(progressInterval);
+        // reveal with custom "early win" flavor, but still april fool
+        revealAprilFool(true, "correct_code");
+        // change a little extra text in the reveal panel? but default is fine.
+        // we can optionally inject custom message but default is good.
+    }
+    
+    // check override logic: secret code is "APRILFOOL" (case insensitive) or "PRANKME" as extra fun
+    function checkOverride() {
+        if (isRevealed) return;
+        let code = overrideInput.value.trim();
+        if (code === "") {
+            errorMsgDiv.innerText = "⚠️ Please enter override code!";
+            return;
+        }
+        // correct codes: APRILFOOL , aprilfool , PRANKED , FOOLDAY , or APRIL1
+        const upperCode = code.toUpperCase();
+        if (upperCode === "APRILFOOL" || upperCode === "PRANKME" || upperCode === "APRIL1" || upperCode === "FOOLDAY" || code.toLowerCase() === "pranked") {
+            successfulOverride();
+        } else {
+            handleFailedAttempt();
+        }
+    }
+    
+    // timer that counts down each second
+    function startCountdownTimer() {
+        if (progressInterval) clearInterval(progressInterval);
+        progressInterval = setInterval(() => {
+            if (isRevealed) {
+                if (progressInterval) clearInterval(progressInterval);
+                return;
+            }
+            if (countdown <= 1) {
+                // time's up!
+                if (progressInterval) clearInterval(progressInterval);
+                forceRevealDueToTimeout();
+            } else {
+                countdown--;
+                updateProgressAndTimer();
+            }
+        }, 1000);
+    }
+    
+    // reset the prank completely (without page reload but via DOM reset)
+    function resetPrank() {
+        if (progressInterval) clearInterval(progressInterval);
+        // reset state variables
+        countdown = 12;
+        attemptsLeft = 3;
+        isRevealed = false;
+        
+        // reset UI elements
+        scaryPanel.classList.remove('hidden');
+        revealPanel.classList.add('hidden');
+        progressFill.style.width = '0%';
+        countdownSpan.innerText = '12';
+        attemptBadge.innerText = 'Attempts left: 3';
+        overrideInput.value = '';
+        errorMsgDiv.innerText = '';
+        overrideInput.style.borderColor = "#b33";
+        statusMsgSpan.innerHTML = "Encrypting local files... (simulation)";
+        updateProgressAndTimer();
+        
+        // restart countdown
+        startCountdownTimer();
+    }
+    
+    // random ip generator to make it look dynamic (just for fun)
+    function randomizeIp() {
+        const ipSpan = document.getElementById('fakeIp');
+        if (ipSpan) {
+            const randomIp = `192.168.${Math.floor(Math.random() * 30) + 10}.${Math.floor(Math.random() * 200) + 10}`;
+            ipSpan.innerText = randomIp;
+        }
+    }
+    
+    // Additional fun: change status message randomly every 2 sec before countdown ends? Not needed but make it alive
+    let statusInterval;
+    function startFakeStatusUpdater() {
+        if (statusInterval) clearInterval(statusInterval);
+        statusInterval = setInterval(() => {
+            if (isRevealed) {
+                if (statusInterval) clearInterval(statusInterval);
+                return;
+            }
+            const messages = [
+                "🔍 Scanning system for prank scripts...",
+                "⚠️ School firewall: Violation detected",
+                "📀 Copying evidence to administration server",
+                "💀 Your screen activity is being logged",
+                "📢 Sending automatic email to parents...",
+                "🔑 Attempting to revoke WiFi access",
+                "🤖 AI discipline report : 87% match"
+            ];
+            if (statusMsgSpan && countdown > 2 && !isRevealed) {
+                // pick random message but keep original vibe
+                const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+                statusMsgSpan.innerHTML = randomMsg;
+            } else if (countdown <= 2 && !isRevealed) {
+                statusMsgSpan.innerHTML = "⚠️ FINAL COUNTDOWN - IRREVERSIBLE ACTIONS ⚠️";
+            }
+        }, 2100);
+    }
+    
+    // event listeners
+    overrideBtn.addEventListener('click', checkOverride);
+    overrideInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            checkOverride();
+        }
+    });
+    
+    // Reset button listener (inside reveal panel)
+    const resetBtn = document.getElementById('resetPrankBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            resetPrank();
+            // Restart fake status updater and ip randomness
+            if (statusInterval) clearInterval(statusInterval);
+            startFakeStatusUpdater();
+            randomizeIp();
+        });
+    }
+    
+    // additional fun: also simulate a random ip on page load, and also refresh status log every few seconds
+    window.addEventListener('load', () => {
+        randomizeIp();
+        startCountdownTimer();
+        startFakeStatusUpdater();
+        // simulate fake log update (only visual)
+        const logDiv = document.querySelector('.fake-log');
+        if (logDiv) {
+            let logLines = [
+                "> [SEC] Intrusion detected from MAC: 2A:3F:4E:91:BB:0C",
+                "> [ENC] Scanning C:\\Users\\Student\\Documents\\ ...",
+                "> [WRN] Disciplinary action pending...",
+                "> [ADMIN] Override attempt required within 12 seconds"
+            ];
+            let idx = 0;
+            setInterval(() => {
+                if (isRevealed) return;
+                if (logDiv && !isRevealed) {
+                    const newLine = document.createElement('div');
+                    const messagesCycle = [
+                        "> [NET] Packet sniff: suspicious april fool payload",
+                        "> [LOCK] User session flagged for review",
+                        "> [CRYPTO] File integrity check: 34% complete",
+                        "> [SCHOOL] Principal notification pending..."
+                    ];
+                    newLine.innerHTML = messagesCycle[Math.floor(Math.random() * messagesCycle.length)];
+                    logDiv.appendChild(newLine);
+                    if (logDiv.children.length > 4) {
+                        logDiv.removeChild(logDiv.children[0]);
+                    }
+                    logDiv.scrollTop = logDiv.scrollHeight;
+                }
+            }, 3800);
+        }
+    });
+    
+    // fallback: ensure that if someone clicks the panel background nothing breaks
+    // and also if countdown somehow gets stuck, but it's fine
+</script>
+</body>
+  </html>
