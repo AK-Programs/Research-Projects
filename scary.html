@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Official School Announcement</title>
+  <style>
+    body { font-family: Georgia, serif; background: #fff; color: #222; margin: 40px; }
+    h1 { color: darkred; text-align: center; }
+    h2 { color: navy; }
+    .section { margin-bottom: 30px; }
+    #reveal { display: none; text-align: center; font-size: 2em; color: green; }
+    .confetti { font-size: 40px; }
+  </style>
+</head>
+<body>
+  <h1>🚨 URGENT SCHOOL NOTICE 🚨</h1>
+
+  <div class="section">
+    <h2>Mandatory Exams</h2>
+    <p>Due to recent academic reviews, all students are required to RETAKE their final exams starting tomorrow morning at 7:00 AM sharp.</p>
+    <p>Attendance is compulsory. Failure to appear will result in immediate suspension.</p>
+  </div>
+
+  <div class="section">
+    <h2>Extended School Hours</h2>
+    <p>Effective immediately, school will operate 7 days a week, including Sundays and holidays.</p>
+    <p>Daily schedule will run from 5:00 AM until 9:00 PM.</p>
+  </div>
+
+  <div class="section">
+    <h2>Uniform Policy</h2>
+    <p>All students must wear full uniform at all times, including during online classes and while at home.</p>
+    <p>Failure to comply will result in disciplinary action.</p>
+  </div>
+
+  <div class="section">
+    <h2>Homework Increase</h2>
+    <p>Homework assignments will now be tripled in volume. Students must submit daily reports signed by parents.</p>
+  </div>
+
+  <div id="reveal">
+    🎉 APRIL FOOL! 🎉<br>
+    <span class="confetti">😂🤣😂🤣😂</span>
+    <p>Relax, no exams, no 7-day school, no triple homework. You’ve been pranked!</p>
+  </div>
+
+  <script>
+    setTimeout(function() {
+      document.body.innerHTML = document.getElementById("reveal").outerHTML;
+    }, 8000); // 8 seconds later, reveal the prank
+  </script>
+</body>
+</html>
