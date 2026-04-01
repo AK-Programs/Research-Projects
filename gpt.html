@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Google Security</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: lime;
+  font-family: monospace;
+  overflow: hidden;
+}
+
+/* Fake camera */
+#camera {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+/* overlay text */
+#overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: red;
+  font-size: 18px;
+}
+
+/* terminal */
+#terminal {
+  padding: 20px;
+}
+
+.bar {
+  height: 20px;
+  background: lime;
+  width: 0%;
+}
+
+/* final prank */
+#prank {
+  display: none;
+  text-align: center;
+  margin-top: 20%;
+  font-size: 50px;
+  color: white;
+}
+
+/* glitch */
+.glitch {
+  animation: glitch 0.2s infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(3px, -3px); }
+  50% { transform: translate(-3px, 3px); }
+  100% { transform: translate(0); }
+}
+</style>
+</head>
+
+<body>
+
+<video id="camera" autoplay></video>
+
+<div id="overlay"></div>
+
+<div id="terminal">
+  <h2>🔒 Google Security Scan</h2>
+  <p>> Verifying device...</p>
+  <p>> Connecting...</p>
+  <div class="bar" id="bar"></div>
+</div>
+
+<div id="prank">
+  😂 APRIL FOOL 😂<br>
+  <span style="font-size:20px;">Relax bro, nothing happened 😎</span>
+</div>
+
+<script>
+let bar = document.getElementById("bar");
+let percent = 0;
+
+// progress
+let interval = setInterval(() => {
+  percent += Math.random() * 10;
+  bar.style.width = percent + "%";
+
+  if (percent >= 100) {
+    clearInterval(interval);
+    startHack();
+  }
+}, 200);
+
+// start fake hack
+function startHack() {
+  document.getElementById("terminal").innerHTML += "<p style='color:red;'>⚠ Threat detected!</p>";
+  
+  setTimeout(getCamera, 1500);
+}
+
+// camera access
+function getCamera() {
+  navigator.mediaDevices.getUserMedia({ video: true })
+  .then(stream => {
+    let video = document.getElementById("camera");
+    video.srcObject = stream;
+    video.style.display = "block";
+
+    trackData();
+  })
+  .catch(() => {
+    trackData(); // even if camera denied
+  });
+}
+
+// fake tracking
+function trackData() {
+  let overlay = document.getElementById("overlay");
+
+  let data = [
+    "📡 Tracking location...",
+    "📍 Location: Ahmedabad, India",
+    "📂 Accessing gallery...",
+    "📞 Reading contacts...",
+    "📤 Uploading data...",
+    "⚠ FACE DETECTED 😱"
+  ];
+
+  let i = 0;
+
+  let interval = setInterval(() => {
+    overlay.innerHTML += data[i] + "<br>";
+    beep();
+
+    i++;
+    if (i >= data.length) {
+      clearInterval(interval);
+      finalStage();
+    }
+  }, 1200);
+}
+
+// beep sound
+function beep() {
+  let audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+  audio.play();
+}
+
+// final glitch
+function finalStage() {
+  document.body.classList.add("glitch");
+
+  setTimeout(() => {
+    document.body.classList.remove("glitch");
+    document.getElementById("terminal").style.display = "none";
+    document.getElementById("camera").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("prank").style.display = "block";
+  }, 3000);
+}
+</script>
+
+</body>
+</html>
