@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Maharshi 🎉</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }.card {
+  background: rgba(255,255,255,0.1);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(0,255,255,0.3);
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 20px #00f2ff; }
+  to { box-shadow: 0 0 40px #00f2ff; }
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+}
+
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  background: #00f2ff;
+  color: black;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: white;
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  display: none;
+}
+
+  </style>
+</head>
+<body>  <div class="card">
+    <h1>🎂 Happy Birthday Maharshi! 🎂</h1>
+    <p>From your friend <strong>Naitik</strong> 💙</p>
+    <button onclick="showMessage()">Click for Surprise 🎁</button>
+    <div class="message" id="msg">
+      Wishing you endless happiness, success, and fun! 🎉🔥<br>
+      You are an amazing friend, Maharshi! 😎✨
+    </div>
+  </div>  <script>
+    function showMessage() {
+      document.getElementById('msg').style.display = 'block';
+    }
+  </script></body>
+</html>
