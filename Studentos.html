@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentOS | Learn Smarter, Score Better</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Light Theme Variables */
+            --bg-color: #f0f4f8;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --primary: #4f46e5;
+            --secondary: #9333ea;
+            --accent: #0ea5e9;
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --card-hover-shadow: 0 15px 35px rgba(79, 70, 229, 0.2);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Variables */
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --accent: #38bdf8;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --card-hover-shadow: 0 15px 35px rgba(99, 102, 241, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Blobs for Aesthetic Vibe */
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .blob-1 {
+            top: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+        }
+        .blob-2 {
+            bottom: -100px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            background: var(--secondary);
+        }
+
+        /* Glassmorphism Utility */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+        }
+
+        /* Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 5%;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 8px 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            color: var(--text-color);
+            padding-left: 10px;
+            width: 150px;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--text-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Dashboard Section */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .dash-card {
+            padding: 30px;
+        }
+
+        .dash-card h3 {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Progress Tracker UI */
+        .progress-wrapper {
+            margin-bottom: 20px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Pomodoro Timer */
+        .pomodoro {
+            text-align: center;
+        }
+        
+        .timer-display {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 20px 0;
+            font-variant-numeric: tabular-nums;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pomo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        /* Features Grid */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            background: rgba(79, 70, 229, 0.1);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Daily Challenge & Leaderboard */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .challenge-box {
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(147, 51, 234, 0.1));
+        }
+
+        .challenge-box h2 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .leaderboard-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .rank {
+            font-weight: bold;
+            color: var(--accent);
+            width: 20px;
+        }
+
+        .score {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .testimonial-card {
+            padding: 30px;
+            font-style: italic;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            font-style: normal;
+        }
+
+        .student-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(148, 163, 184, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 3rem; }
+            .dashboard { grid-template-columns: 1fr; }
+            .nav-links { display: none; } /* Simplified for mobile template */
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .two-col { grid-template-columns: 1fr; }
+            .search-bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Elements -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="glass">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i> StudentOS
+            </div>
+            
+            <div class="search-bar">
+                <i class="fa-solid fa-search" style="color: var(--text-muted)"></i>
+                <input type="text" placeholder="Search notes...">
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#community">Community</a></li>
+            </ul>
+
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <a href="#" class="btn btn-outline" style="padding: 8px 18px;">Login</a>
+                <a href="#" class="btn btn-primary" style="padding: 8px 18px;">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1><span class="gradient-text">Learn Smarter,</span><br>Score Better 🚀</h1>
+            <p>Your all-in-one digital operating system for academic success. Organize notes, track progress, leverage AI, and stay motivated in one sleek workspace.</p>
+            <div class="hero-buttons">
+                <a href="#dashboard" class="btn btn-primary">Go to Dashboard</a>
+                <a href="#features" class="btn btn-outline">Explore Features</a>
+            </div>
+        </section>
+
+        <!-- Dashboard Layout -->
+        <section id="dashboard" class="dashboard">
+            <!-- Progress Tracker -->
+            <div class="dash-card glass">
+                <h3><i class="fa-solid fa-chart-line" style="color: var(--accent)"></i> Weekly Progress</h3>
+                
+                <div class="progress-wrapper">
+                    <div class="progress-header">
+                        <span>Mathematics</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-wrapper">
+                    <div class="progress-header">
+                        <span>Physics</span>
+                        <span>65%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-wrapper">
+                    <div class="progress-header">
+                        <span>Computer Science</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pomodoro Widget -->
+            <div class="dash-card glass pomodoro">
+                <h3><i class="fa-solid fa-stopwatch" style="color: var(--secondary)"></i> Focus Mode</h3>
+                <div class="timer-display" id="timeDisplay">25:00</div>
+                <div class="pomo-controls">
+                    <button class="btn btn-primary" id="startTimer" style="padding: 8px 20px;">Start</button>
+                    <button class="btn btn-outline" id="resetTimer" style="padding: 8px 20px;">Reset</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <h2 class="section-title">Everything you need. <span class="gradient-text">In one place.</span></h2>
+        <section id="features" class="features">
+            
+            <div class="feature-card glass">
+                <div class="feature-icon"><i class="fa-solid fa-book-open"></i></div>
+                <h3>Notes Archive</h3>
+                <p>Access well-organized, searchable notes. Upload your own or browse community-verified materials.</p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon"><i class="fa-solid fa-gamepad"></i></div>
+                <h3>Quiz Zone</h3>
+                <p>Test your knowledge with gamified quizzes. Earn XP and level up your academic profile.</p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                <h3>Study Tips</h3>
+                <p>Science-backed techniques like Feynman and Spaced Repetition integrated directly into your workflow.</p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
+                <h3>Coding Tutorials</h3>
+                <p>Interactive environments to learn Python, Web Dev, and C++ right from your browser.</p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+                <h3>AI Assistant</h3>
+                <p>Stuck on a problem? Let StudentOS AI explain complex concepts to you simply and clearly.</p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon"><i class="fa-solid fa-fire"></i></div>
+                <h3>Motivation</h3>
+                <p>Daily quotes, success stories, and goal-setting modules to keep the burnout away.</p>
+            </div>
+
+        </section>
+
+        <!-- Challenge & Leaderboard -->
+        <section id="community" class="two-col">
+            <div class="challenge-box glass">
+                <i class="fa-solid fa-bolt" style="font-size: 40px; color: #fbbf24; margin-bottom: 15px;"></i>
+                <h2>Daily Challenge</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 20px;">Complete 3 Physics quizzes and log 2 hours of focus time to earn the <strong>Quantum Scholar</strong> badge!</p>
+                <button class="btn btn-primary">Accept Challenge</button>
+            </div>
+
+            <div class="dash-card glass">
+                <h3><i class="fa-solid fa-trophy" style="color: #fbbf24"></i> Global Leaderboard</h3>
+                <ul class="leaderboard-list">
+                    <li class="leaderboard-item">
+                        <div class="rank-user">
+                            <span class="rank">#1</span>
+                            <span>Alex Mercer</span>
+                        </div>
+                        <span class="score">12,450 XP</span>
+                    </li>
+                    <li class="leaderboard-item">
+                        <div class="rank-user">
+                            <span class="rank">#2</span>
+                            <span>Sarah Chen</span>
+                        </div>
+                        <span class="score">11,980 XP</span>
+                    </li>
+                    <li class="leaderboard-item">
+                        <div class="rank-user">
+                            <span class="rank">#3</span>
+                            <span>Marcus Johnson</span>
+                        </div>
+                        <span class="score">11,200 XP</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <h2 class="section-title">What Students Say</h2>
+        <section class="testimonials">
+            <div class="testimonial-card glass">
+                <p>"StudentOS completely changed how I study. The Pomodoro timer and AI explanations help me finish homework in half the time."</p>
+                <div class="student-info">
+                    <div class="student-avatar">E</div>
+                    <div>
+                        <strong>Emma W.</strong>
+                        <div style="font-size: 0.8rem; color: var(--text-muted)">High School Senior</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card glass">
+                <p>"The clean UI is distraction-free, and I love the dark mode! Competing on the leaderboard actually makes studying fun."</p>
+                <div class="student-info">
+                    <div class="student-avatar" style="background: var(--accent)">L</div>
+                    <div>
+                        <strong>Liam T.</strong>
+                        <div style="font-size: 0.8rem; color: var(--text-muted)">CS Undergrad</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass" style="border-radius: 20px 20px 0 0; border-bottom: none;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <div class="logo" style="font-size: 20px; margin-bottom: 15px;">
+                        <i class="fa-solid fa-graduation-cap"></i> StudentOS
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Building the future of digital education. Learn smart, achieve more.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#">Notes Library</a></li>
+                        <li><a href="#">Quiz Zone</a></li>
+                        <li><a href="#">AI Tools</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 StudentOS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // --- Dark/Light Mode Toggle ---
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        const htmlElement = document.documentElement;
+
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        // --- Pomodoro Timer Logic ---
+        let timer;
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+        let isRunning = false;
+
+        const timeDisplay = document.getElementById('timeDisplay');
+        const startBtn = document.getElementById('startTimer');
+        const resetBtn = document.getElementById('resetTimer');
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        startBtn.addEventListener('click', () => {
+            if (isRunning) {
+                clearInterval(timer);
+                startBtn.textContent = 'Start';
+                isRunning = false;
+            } else {
+                timer = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timer);
+                        isRunning = false;
+                        startBtn.textContent = 'Start';
+                        alert('Focus session complete! Take a break.');
+                    }
+                }, 1000);
+                startBtn.textContent = 'Pause';
+                isRunning = true;
+            }
+        });
+
+        resetBtn.addEventListener('click', () => {
+            clearInterval(timer);
+            isRunning = false;
+            startBtn.textContent = 'Start';
+            timeLeft = 25 * 60;
+            updateDisplay();
+        });
+    </script>
+</body>
+  </html>
